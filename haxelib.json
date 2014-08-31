@@ -1,0 +1,10 @@
+{
+        "name": "openfl-share",
+        "url": "https://github.com/fbricker/openfl-share",
+        "license": "GPL",
+        "contributors":["fbricker"],
+        "tags": ["share","api","android","openfl"],
+        "description": "Share extension calling native implementation for Android and HTML5.",
+        "version": "0.0.1",
+        "releasenote": "First release."
+}
