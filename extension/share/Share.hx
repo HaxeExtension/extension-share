@@ -10,15 +10,17 @@ class Share {
 	private static var facebookAppID:String='';
 	private static var defaultURL:String='';
 	private static var defaultFallback:String->Void=null;
+	private static var facebookRedirectURI:String=null;
 
 	public static inline var FACEBOOK:String='facebook';
 	public static inline var TWITTER:String='twitter';
 
-	public static function init(defaultSocialNetwork:String, facebookAppID:String='', defaultURL:String='', defaultFallback:String->Void=null) {
+	public static function init(defaultSocialNetwork:String, facebookAppID:String='', defaultURL:String='', defaultFallback:String->Void=null, facebookRedirectURI:String=null) {
 		Share.defaultSocialNetwork=defaultSocialNetwork;
 		Share.facebookAppID=facebookAppID;
 		Share.defaultURL=defaultURL;
 		Share.defaultFallback=defaultFallback;
+		Share.facebookRedirectURI=facebookRedirectURI;
 		#if android
 		if(__share!=null) return;
 		try{
@@ -33,7 +35,7 @@ class Share {
 		if(url==null) url=defaultURL;
 		if(socialNetwork==null) socialNetwork=defaultSocialNetwork;
 		if(fallback==null) fallback=defaultFallback;
-		var cleanUrl:String=StringTools.replace(url,'http://','');
+		var cleanUrl:String=StringTools.replace(StringTools.replace(url,'http://',''),'https://','');
 		try{
 		#if android
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
@@ -42,10 +44,12 @@ class Share {
 			subject=StringTools.urlEncode(subject);
 			url=StringTools.urlEncode(url);
 			cleanUrl=StringTools.urlEncode(cleanUrl);
+			var redirectURI:String='';
+			if(facebookRedirectURI!=null) redirectURI='&redirect_uri='+StringTools.urlEncode(facebookRedirectURI);
 			image=StringTools.urlEncode(image);
 			var shareUrl=switch(socialNetwork){
 				case Share.TWITTER: 'https://twitter.com/intent/tweet?original_referer='+url+'&text='+text+'%20'+cleanUrl;
-				default: 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+'&redirect_uri=http://www.puralax.com/shared/&images[]='+image;
+				default: 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
 			}
 			#if html5
 				var pWidth:Int=550;
