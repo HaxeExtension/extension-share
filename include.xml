@@ -3,4 +3,8 @@
 	<section if="android">
 		<include path="java/ShareEx/include.xml" />
 	</section>
+	<section if="ios">
+		<ndll name="openflShareExtension" />
+		<ios linker-flags="-v" />
+	</section>
 </extension>

@@ -3,7 +3,9 @@ package extension.share;
 class Share {
 
 	#if android
-	private static var __share : String->String->String->String->Void=null;
+	private static var __share : String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	#elseif ios
+	private static var __share : String->Void=cpp.Lib.load("openflShareExtension","share_do",1);
 	#end
 
 	private static var defaultSocialNetwork:String='twitter';
@@ -21,14 +23,6 @@ class Share {
 		Share.defaultURL=defaultURL;
 		Share.defaultFallback=defaultFallback;
 		Share.facebookRedirectURI=facebookRedirectURI;
-		#if android
-		if(__share!=null) return;
-		try{
-			__share    = openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-		}catch(e:Dynamic){
-			trace("Share New -> Exception: "+e);
-		}
-		#end
 	}
 	
 	public static function share(text:String, subject:String='', image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null){
@@ -39,6 +33,8 @@ class Share {
 		try{
 		#if android
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
+		#elseif ios
+			__share(text+(cleanUrl!=''?' '+cleanUrl:''));
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);

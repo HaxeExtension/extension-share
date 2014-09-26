@@ -5,6 +5,6 @@
         "contributors":["fbricker"],
         "tags": ["share","api","android","openfl"],
         "description": "Share extension calling native implementation for Android and HTML5.",
-        "version": "0.1.0",
-        "releasenote": "Added Facebook Redirect URI parameter to Init Function"
+        "version": "1.0.0",
+        "releasenote": "Added native iOS share dialogs"
 }
