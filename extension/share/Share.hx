@@ -34,7 +34,7 @@ class Share {
 		#if android
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
 		#elseif ios
-			__share(text+(cleanUrl!=''?' '+cleanUrl:''),url==''?null:url);
+			__share(text,url==''?null:url);
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);

@@ -5,6 +5,6 @@
         "contributors":["fbricker"],
         "tags": ["share","api","android","openfl"],
         "description": "Share extension calling native implementation for Android and HTML5.",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "releasenote": "Added native iOS share dialogs"
 }
