@@ -5,7 +5,7 @@ class Share {
 	#if android
 	private static var __share : String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
-	private static var __share : String->Void=cpp.Lib.load("openflShareExtension","share_do",1);
+	private static var __share : String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
 	#end
 
 	private static var defaultSocialNetwork:String='twitter';
@@ -34,7 +34,7 @@ class Share {
 		#if android
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
 		#elseif ios
-			__share(text+(cleanUrl!=''?' '+cleanUrl:''));
+			__share(text+(cleanUrl!=''?' '+cleanUrl:''),url==''?null:url);
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);

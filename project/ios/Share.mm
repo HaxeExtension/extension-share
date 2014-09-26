@@ -3,12 +3,18 @@
 
 namespace openflShareExtension {
 	
-	void doShare(const char *text){
+	void doShare(const char *text, const char *url){
         UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         NSString *sText = [[NSString alloc] initWithUTF8String:text];
-        NSArray *itemsToShare = @[sText];
+        NSArray *itemsToShare;
+        if(url != nil){
+	        NSURL *sURL = [NSURL URLWithString:[[NSString alloc] initWithUTF8String:url]];
+	        itemsToShare = @[sText,sURL];
+        }else{
+	        itemsToShare = @[sText];        	
+        }
         UIActivityViewController  *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-        activityVC.excludedActivityTypes = @[UIActivityTypeCopyToPasteboard];
+        activityVC.excludedActivityTypes = @[UIActivityTypeCopyToPasteboard, UIActivityTypeAddToReadingList]; //UIActivityTypeMail];
         [root presentViewController:activityVC animated:YES completion:nil];
     }
 

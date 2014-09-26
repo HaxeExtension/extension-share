@@ -13,11 +13,11 @@
 using namespace openflShareExtension;
 
 
-static value share_do(value text){
-	doShare(val_string(text));
+static value share_do(value text, value url){
+	doShare(val_string(text), val_string(url));
 	return alloc_null();
 }
-DEFINE_PRIM(share_do,1);
+DEFINE_PRIM(share_do,2);
 
 
 extern "C" void share_main () {	
