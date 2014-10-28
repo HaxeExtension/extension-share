@@ -20,7 +20,7 @@ class SimpleExample {
 	}
 
 	function shareStuff(){
-		Share.share('Hi, I\'m testing the OpenFL-Sharing extension!')
+		Share.share('Hi, I\'m testing the OpenFL-Sharing extension!');
 	}
 }
 
