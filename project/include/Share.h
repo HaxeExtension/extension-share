@@ -3,7 +3,7 @@
 
 
 namespace openflShareExtension {
-		void doShare(const char *text, const char *url);
+		void doShare(const char *text, const char *url, const char *subject);
 }
 
 #endif

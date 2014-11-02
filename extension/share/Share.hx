@@ -5,28 +5,31 @@ class Share {
 	#if android
 	private static var __share : String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
-	private static var __share : String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
+	private static var __share : String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",3);
 	#end
 
-	private static var defaultSocialNetwork:String='twitter';
-	private static var facebookAppID:String='';
-	private static var defaultURL:String='';
-	private static var defaultFallback:String->Void=null;
-	private static var facebookRedirectURI:String=null;
+	public static var defaultSocialNetwork:String='twitter';
+	public static var facebookAppID:String='';
+	public static var defaultURL:String='';
+	public static var defaultFallback:String->Void=null;
+	public static var facebookRedirectURI:String=null;
+	public static var defaultSubject:String='';
 
 	public static inline var FACEBOOK:String='facebook';
 	public static inline var TWITTER:String='twitter';
 
-	public static function init(defaultSocialNetwork:String, facebookAppID:String='', defaultURL:String='', defaultFallback:String->Void=null, facebookRedirectURI:String=null) {
+	public static function init(defaultSocialNetwork:String, facebookAppID:String='', defaultURL:String='', defaultFallback:String->Void=null, facebookRedirectURI:String=null, defaultSubject='') {
 		Share.defaultSocialNetwork=defaultSocialNetwork;
 		Share.facebookAppID=facebookAppID;
 		Share.defaultURL=defaultURL;
 		Share.defaultFallback=defaultFallback;
 		Share.facebookRedirectURI=facebookRedirectURI;
+		Share.defaultSubject=defaultSubject;
 	}
 	
-	public static function share(text:String, subject:String='', image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null){
+	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null){
 		if(url==null) url=defaultURL;
+		if(subject==null) subject=defaultSubject;
 		if(socialNetwork==null) socialNetwork=defaultSocialNetwork;
 		if(fallback==null) fallback=defaultFallback;
 		var cleanUrl:String=StringTools.replace(StringTools.replace(url,'http://',''),'https://','');
@@ -34,7 +37,7 @@ class Share {
 		#if android
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
 		#elseif ios
-			__share(text,url==''?null:url);
+			__share(text,url==''?null:url,subject==''?null:subject);
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);
