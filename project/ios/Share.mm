@@ -14,7 +14,14 @@ namespace openflShareExtension {
 	        itemsToShare = @[sText];        	
         }
         UIActivityViewController  *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-        activityVC.excludedActivityTypes = @[UIActivityTypeCopyToPasteboard, UIActivityTypeAddToReadingList]; //UIActivityTypeMail];
+        activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
+                                             UIActivityTypeCopyToPasteboard,
+                                             UIActivityTypePrint,
+                                             UIActivityTypeAssignToContact,
+                                             UIActivityTypeSaveToCameraRoll,
+                                             UIActivityTypeAddToReadingList,
+                                             //UIActivityTypeMail,
+                                             UIActivityTypeAirDrop];
         [root presentViewController:activityVC animated:YES completion:nil];
     }
 
