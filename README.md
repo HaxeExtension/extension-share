@@ -3,7 +3,7 @@ openfl-share
 
 Native Sharing calls for OpenFL
 
-This is a simple implementation "Share" API. So far it calls the "Share Intent" on Android, a popup on HTML5 and opens sharing URL from Facebook and Twitter on iOS.
+This is a simple implementation "Share" API. So far it calls the "Share Intent" on Android and iOS, a popup on HTML5 and opens sharing URL from Facebook and Twitter on other platforms.
 
 Simple use Example:
 =======
@@ -42,7 +42,7 @@ http://es.unibrander.com/estados-unidos/212050US/twitter.html
 Facebook is a registered trademark of Facebook Inc.
 http://es.unibrander.com/estados-unidos/221811US/facebook.html
 
-Licence
+License
 =======
 http://www.gnu.org/licenses/lgpl.html
 
@@ -59,8 +59,6 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-  
-Google is a registered trademark of Google Inc.
 
 
 WebSite: https://github.com/fbricker/openfl-share | Author: Federico Bricker | Copyright (c) 2014 SempaiGames (http://www.sempaigames.com)
