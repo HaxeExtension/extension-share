@@ -5,6 +5,6 @@
         "contributors":["fbricker"],
         "tags": ["share","api","android","openfl"],
         "description": "Share extension calling native implementation for Android and HTML5.",
-        "version": "1.0.3",
-        "releasenote": "Filtered iOS share options + Set eMail subject on iOS"
+        "version": "1.1.0",
+        "releasenote": "Fixed support for iPad."
 }
