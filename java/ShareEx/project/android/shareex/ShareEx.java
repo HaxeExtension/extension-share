@@ -16,7 +16,4 @@ public class ShareEx {
         GameActivity.getInstance().getContext().startActivity(sendIntent);
 	}
 
-	public static String getLocale(){
-		return java.util.Locale.getDefault().toString().replace('_','-');
-	}
 }
