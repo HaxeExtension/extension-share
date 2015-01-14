@@ -3,7 +3,7 @@
         "url": "https://github.com/fbricker/openfl-share",
         "license": "GPL",
         "contributors":["fbricker"],
-        "tags": ["share","api","html5,"ios","android","openfl"],
+        "tags": ["share","api","html5","ios","android","openfl"],
         "description": "Share extension calling native implementation for Android, iOS and HTML5.",
         "version": "1.2.0",
         "releasenote": "Fix build for arm64, x86_64."
