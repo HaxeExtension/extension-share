@@ -2,7 +2,7 @@
 
 Native Sharing calls for OpenFL
 
-This is a simple implementation "Share" API. So far it calls the "Share Intent" on Android and iOS, a popup on HTML5 and opens sharing URL from Facebook and Twitter on other platforms.
+This is a simple "Share" API implementation. So far it calls the "Share Intent" on Android and iOS, a popup on HTML5 and opens sharing URL from Facebook and Twitter on other platforms.
 
 ###Simple use Example
 
