@@ -50,6 +50,6 @@ http://es.unibrander.com/estados-unidos/221811US/facebook.html
 
 The MIT License (MIT) - [LICENSE.md](LICENSE.md)
 
-Copyright (c) 2014 SempaiGames (http://www.sempaigames.com)
+Copyright &copy; 2014 SempaiGames (http://www.sempaigames.com)
 
 Author: Federico Bricker
