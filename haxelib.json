@@ -1,7 +1,7 @@
 {
         "name": "openfl-share",
         "url": "https://github.com/fbricker/openfl-share",
-        "license": "GPL",
+        "license": "MIT",
         "contributors":["fbricker"],
         "tags": ["share","api","html5","ios","android","openfl"],
         "description": "Share extension calling native implementation for Android, iOS and HTML5.",
