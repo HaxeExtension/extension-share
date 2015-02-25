@@ -1,4 +1,4 @@
-#openfl-share
+#extension-share
 
 Native Sharing calls for OpenFL
 
@@ -35,7 +35,7 @@ class SimpleExample {
 ###How to Install
 
 ```bash
-haxelib install openfl-share
+haxelib install extension-share
 ```
 
 ###Disclaimer
