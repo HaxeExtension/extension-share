@@ -1,10 +1,10 @@
 {
-        "name": "openfl-share",
-        "url": "https://github.com/fbricker/openfl-share",
+        "name": "extension-share",
+        "url": "https://github.com/openfl/extension-share",
         "license": "MIT",
-        "contributors":["fbricker"],
+        "contributors":["singmajesty","fbricker"],
         "tags": ["share","api","html5","ios","android","openfl"],
         "description": "Share extension calling native implementation for Android, iOS and HTML5.",
-        "version": "1.2.0",
-        "releasenote": "Fix build for arm64, x86_64."
+        "version": "1.2.1",
+        "releasenote": "Rename from openfl-share to extension-share."
 }
