@@ -14,7 +14,7 @@ import extension.share.Share;
 class SimpleExample {
 	function new(){
 		Share.init(Share.TWITTER); // for non supported targets, we share on Twitter (you can also use Share.FACEBOOK)
-		Share.defaultURL='http://www.puralax.com/mobile/'; // url to add at the end of each share (optional).
+		Share.defaultURL='http://www.puralax.com/'; // url to add at the end of each share (optional).
 		Share.defaultSubject='Try puralax!'; // in case the user choose to share by email, set the subject.
 		
 		// Other things you may want to init for non-supported targets
@@ -41,10 +41,10 @@ haxelib install extension-share
 ###Disclaimer
 
 Twitter is a registered trademark of Twitter Inc.
-http://es.unibrander.com/estados-unidos/212050US/twitter.html
+http://unibrander.com/united-states/212050US/twitter.html
 
 Facebook is a registered trademark of Facebook Inc.
-http://es.unibrander.com/estados-unidos/221811US/facebook.html
+http://unibrander.com/united-states/221811US/facebook.html
 
 ###License
 
