@@ -18,14 +18,14 @@ namespace openflShareExtension {
             [activityVC setValue:[[NSString alloc] initWithUTF8String:subject] forKey:@"subject"];
         }
 
-        // Required for iPad
-        activityVC.popoverPresentationController.sourceView = [[UIApplication sharedApplication] keyWindow];
-
-        // Remove arrow from action sheet.
-        [activityVC.popoverPresentationController setPermittedArrowDirections:0];
-
-        // Set action sheet to middle of view.
-        activityVC.popoverPresentationController.sourceRect = [[UIApplication sharedApplication] keyWindow].frame;
+        // Required for iPad on iOS >=8
+        if ([activityVC respondsToSelector:@selector(popoverPresentationController)]) {
+            if(NULL != activityVC.popoverPresentationController) {
+                activityVC.popoverPresentationController.sourceView = [[UIApplication sharedApplication] keyWindow];
+                [activityVC.popoverPresentationController setPermittedArrowDirections:0]; // Remove arrow from action sheet.
+                activityVC.popoverPresentationController.sourceRect = [[UIApplication sharedApplication] keyWindow].frame; // Set action sheet to middle of view.
+            }
+        }
 
         activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
                                              UIActivityTypeCopyToPasteboard,
