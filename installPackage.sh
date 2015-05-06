@@ -1,5 +1,5 @@
 #!/bin/bash
 dir=`dirname "$0"`
 cd "$dir"
-haxelib remove openfl-share
-haxelib local openfl-share.zip
+haxelib remove extension-share
+haxelib local extension-share.zip

@@ -5,6 +5,6 @@
         "contributors":["singmajesty","fbricker"],
         "tags": ["share","api","html5","ios","android","openfl"],
         "description": "Share extension calling native implementation for Android, iOS and HTML5.",
-        "version": "1.2.1",
-        "releasenote": "Rename from openfl-share to extension-share."
+        "version": "1.2.2",
+        "releasenote": "Fix uncaught exception on iOS < 8.0"
 }
