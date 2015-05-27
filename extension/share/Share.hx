@@ -1,11 +1,22 @@
 package extension.share;
 
+#if blackberry
+typedef ShareQueryResult = {
+	key : String,
+	icon : String,
+	label : String
+}
+#end
+
 class Share {
 
 	#if android
 	private static var __share : String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
 	private static var __share : String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",3);
+	#elseif blackberry
+	private static var __share : String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
+	private static var __query : Void->Array<ShareQueryResult>=cpp.Lib.load("openflShareExtension","share_query",0);
 	#end
 
 	public static var defaultSocialNetwork:String='twitter';
@@ -27,6 +38,12 @@ class Share {
 		Share.defaultSubject=defaultSubject;
 	}
 	
+	#if blackberry
+	public static function query() {
+		return __query();
+	}
+	#end
+
 	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null){
 		if(url==null) url=defaultURL;
 		if(subject==null) subject=defaultSubject;
@@ -38,6 +55,8 @@ class Share {
 			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
 		#elseif ios
 			__share(text,url==''?null:url,subject==''?null:subject);
+		#elseif blackberry
+		//trace(__query());
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);

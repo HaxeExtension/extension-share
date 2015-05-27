@@ -7,4 +7,7 @@
 		<ndll name="openflShareExtension" />
 		<ios linker-flags="-v" />
 	</section>
+	<section if="blackberry">
+		<ndll name="openflShareExtension" />
+	</section>
 </extension>
