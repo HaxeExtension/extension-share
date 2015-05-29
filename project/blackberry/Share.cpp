@@ -19,6 +19,21 @@ namespace openflShareExtension {
 		fclose(logFile);
 	}
 
+	void doShare(const char *method, const char *text) {
+
+		navigator_invoke_invocation_t *invoke = NULL;
+		navigator_invoke_invocation_create(&invoke);
+
+		navigator_invoke_invocation_set_action(invoke, "bb.action.SHARE");
+		navigator_invoke_invocation_set_data(invoke, text, strlen(text));
+		navigator_invoke_invocation_set_target(invoke, method);
+		navigator_invoke_invocation_set_type(invoke, "text/plain");
+
+		navigator_invoke_invocation_send(invoke);
+		navigator_invoke_invocation_destroy(invoke);
+
+	}
+
 	vector<ShareQueryResult> query() {
 
 		FILE *logFile = fopen("logs/log.txt", "w");
@@ -99,7 +114,7 @@ namespace openflShareExtension {
 					navigator_invoke_query_result_target_get_label(target);
 
 				strcpy(result.key, key);
-				strcpy(result.icon, icon);
+				strcpy(result.icon, icon);	
 				strcpy(result.label, label);
 
 				results.push_back(result);
@@ -111,10 +126,6 @@ namespace openflShareExtension {
 		navigator_invoke_query_destroy(query);
 
 		return results;
-
-	}
-
-	void doShare(const char *method, const char *text) {
 
 	}
 

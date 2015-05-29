@@ -17,12 +17,13 @@ using namespace openflShareExtension;
 
 #ifdef BLACKBERRY
 
-static value share_do (value method, value text) {
+static value share_do(value method, value text) {
+	doShare(val_string(method), val_string(text));
 	return alloc_null();
 }
 DEFINE_PRIM(share_do, 2);
 
-static value share_query () {
+static value share_query() {
 	std::vector<ShareQueryResult> resultCpp = query();
 	value resultHaxe = alloc_array(resultCpp.size());
 	for (int i=0; i<resultCpp.size(); ++i) {

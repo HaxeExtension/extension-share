@@ -17,9 +17,13 @@ namespace openflShareExtension {
 
 		std::vector<ShareQueryResult> query();
 
-		#endif
+		void doShare(const char *method, const char *text);
+
+		#else
 
 		void doShare(const char *text, const char *url, const char *subject);
+
+		#endif
 
 }
 
