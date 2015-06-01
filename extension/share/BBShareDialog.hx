@@ -6,6 +6,7 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.events.TouchEvent;
 import flash.geom.Point;
 import flash.Lib;
 import flash.text.TextField;
@@ -73,7 +74,7 @@ class BBShareDialog extends Sprite {
 		title.setTextFormat(format);
 
 		backBtn = new Sprite();
-		
+
 		backBtn.graphics.beginFill(0x282828);
 		backBtn.graphics.drawRect(0, 0, titleBar.width*0.2, titleBar.height*0.8);
 		backBtn.graphics.endFill();
@@ -106,7 +107,13 @@ class BBShareDialog extends Sprite {
 		var gfx = this.graphics;
 		gfx.lineStyle(0);
 		gfx.beginFill(0x000000);
-		gfx.drawRect(0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight);
+
+		gfx.drawRect(
+			Lib.current.x,
+			Lib.current.y,
+			Lib.current.stage.stageWidth,
+			Lib.current.stage.stageHeight);
+
 		gfx.endFill();
 
 		// First line
@@ -188,9 +195,14 @@ class BBShareDialog extends Sprite {
 
 	function onAddedToStage(_) {
 
-		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-		addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-		addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, 999);
+		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, 999);
+		Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, 999);
+
+		Lib.current.stage.addEventListener(MouseEvent.CLICK, stopPropagation, 999);
+		Lib.current.stage.addEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation, 999);
+		Lib.current.stage.addEventListener(TouchEvent.TOUCH_END, stopPropagation, 999);
+
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		backBtn.addEventListener(MouseEvent.CLICK, exit);
 
@@ -198,19 +210,47 @@ class BBShareDialog extends Sprite {
 
 	function onRemovedFromStage(_) {
 
-		removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-		removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-		removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+
+		Lib.current.stage.removeEventListener(MouseEvent.CLICK, stopPropagation);
+		Lib.current.stage.removeEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation);
+		Lib.current.stage.removeEventListener(TouchEvent.TOUCH_END, stopPropagation);
+
 		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		backBtn.removeEventListener(MouseEvent.CLICK, exit);
 
 	}
 
+	function exit(e : MouseEvent) {
+
+		if (e!=null) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+		}
+		parent.removeChild(this);
+
+	}
+
+	function stopPropagation(e : Event) {
+		e.stopImmediatePropagation();
+		e.stopPropagation();
+	}
+
 	function onMouseDown(m : MouseEvent) {
 
+		m.stopImmediatePropagation();
+		m.stopPropagation();
+		var p = new Point(m.stageX, m.stageY);
+		var pTitleBar = new Point(0, titleBar.height);
+		pTitleBar = titleBar.globalToLocal(pTitleBar);
+		if (m.stageY<pTitleBar.y) {
+			return;
+		}
 		mouseDownPos = Some(m.stageY);
 		scrolledAmount = 0;
-		var p = new Point(m.stageX, m.stageY);
+		
 		this.globalToLocal(p);
 
 		for (i in 0...btns.length) {
@@ -222,12 +262,10 @@ class BBShareDialog extends Sprite {
 
 	}
 
-	function exit(_) {
-		parent.removeChild(this);
-	}
-
 	function onMouseUp(m : MouseEvent) {
 
+		m.stopImmediatePropagation();
+		m.stopPropagation();
 		mouseDownPos = None;
 		var p = new Point(m.stageX, m.stageY);
 		this.globalToLocal(p);
@@ -245,6 +283,8 @@ class BBShareDialog extends Sprite {
 
 	function onMouseMove(m : MouseEvent) {
 
+		m.stopImmediatePropagation();
+		m.stopPropagation();
 		switch (mouseDownPos) {
 			case Some(oldPos): {
 				var moved = oldPos - m.stageY;
@@ -268,6 +308,8 @@ class BBShareDialog extends Sprite {
 
 	function onEnterFrame(_) {
 
+		var bottomBound = Lib.current.y + Lib.current.stage.stageHeight + titleBar.height;
+
 		switch (mouseDownPos) {
 			case Some(pos): {}
 			case None: {
@@ -276,10 +318,10 @@ class BBShareDialog extends Sprite {
 					var diff = titleBar.height-17 - scrollContainer.y;
 					scrollSpeed = -diff/4.0;
 
-				} else if (scrollContainer.y + scrollContainer.height < Lib.current.stage.stageHeight) {
+				} else if (scrollContainer.y + scrollContainer.height < bottomBound) {
 
 					var diff = scrollContainer.y + scrollContainer.height + 16 -
-						Lib.current.stage.stageHeight;
+						bottomBound;
 					scrollSpeed = diff/4.0;
 
 				} else {
