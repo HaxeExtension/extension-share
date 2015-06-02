@@ -1,20 +1,38 @@
 <xml>
-	
+
 	<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
 	
-	
 	<files id="common">		
-		<compilerflag value="-Iinclude"/>
-		<compilerflag value="-Iios/include" />
+		<compilerflag value="-Iinclude" />
 		<file name="common/ExternalInterface.cpp"/>
+	</files>
+
+	<files id="iphone">
+		<compilerflag value="-Iinclude" />
+		<compilerflag value="-Iios/include" />
 		<file name="ios/Share.mm" />
+	</files>
+
+	<files id="blackberry">
+		<compilerflag value="-Iinclude" />
+		<file name="blackberry/Share.cpp" />
 	</files>
 	
 	<target id="NDLL" output="${LIBPREFIX}openflShareExtension${debug_extra}${LIBEXTRA}" tool="linker" toolid="${STD_MODULE_LINK}">
 
 		<outdir name="../ndll/${BINDIR}"/>
 		<ext value=".ndll" if="windows || mac || linux" />
+
+		<compilerflag value="-DBLACKBERRY" if="blackberry" />
+
 		<files id="common"/>
+		<files id="iphone" if="iphone" />
+		<files id="blackberry" if="blackberry" />
+
+		<section if="blackberry">
+			<lib name="-lbps" />
+			<lib name="-lc" />
+		</section>
 		
 	</target>
 	
