@@ -38,6 +38,16 @@ class Share {
 		Share.defaultSubject=defaultSubject;
 	}
 
+	public static var onBBShareDialogExit : Void -> Void;
+
+	static function __onBBShareDialogExit() {
+
+		if (onBBShareDialogExit!=null) {
+			onBBShareDialogExit();
+		}
+
+	}
+
 	public static function bbShare(method : String, text : String) {
 		#if blackberry
 		__share(method, text);

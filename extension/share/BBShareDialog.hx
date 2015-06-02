@@ -3,6 +3,7 @@ package extension.share;
 import extension.share.Share;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -18,11 +19,14 @@ import haxe.ds.Option;
 
 using Lambda;
 
+@:access(extension.share.Share)
 class BBShareDialog extends Sprite {
 
 	static inline var ENTRY_X_MARGIN = 15.0;
 	static inline var ENTRY_Y_MARGIN = 20.0;
 	static inline var IMG_SIZE = 55;
+
+	var removedOnAdded : Array<DisplayObject>;
 
 	var titleBar : Sprite;
 	var scrollContainer : Sprite;
@@ -38,6 +42,8 @@ class BBShareDialog extends Sprite {
 	public function new(elems : Array<ShareQueryResult>, shareTxt : String) {
 
 		super();
+
+		removedOnAdded = [];
 
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
@@ -195,13 +201,25 @@ class BBShareDialog extends Sprite {
 
 	function onAddedToStage(_) {
 
-		Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, 999);
-		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, 999);
-		Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, 999);
+		removedOnAdded = [];
+		for (i in 0...Lib.current.stage.numChildren) {
+			var c = Lib.current.stage.getChildAt(i);
+			if (c!=null && c!=this) {
+				c.y += 5000;
+				removedOnAdded.push(c);
+			}
+		}
 
-		Lib.current.stage.addEventListener(MouseEvent.CLICK, stopPropagation, 999);
-		Lib.current.stage.addEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation, 999);
-		Lib.current.stage.addEventListener(TouchEvent.TOUCH_END, stopPropagation, 999);
+		var evtsObject = this.stage;
+		evtsObject.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, 9999);
+		evtsObject.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, 9999);
+		evtsObject.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, 9999);
+		evtsObject.addEventListener(MouseEvent.CLICK, stopPropagation, 9999);
+
+		evtsObject.addEventListener(TouchEvent.TOUCH_TAP, stopPropagation, 9999);
+		evtsObject.addEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation, 9999);
+		evtsObject.addEventListener(TouchEvent.TOUCH_END, stopPropagation, 9999);
+		evtsObject.addEventListener(TouchEvent.TOUCH_MOVE, stopPropagation, 9999);
 
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		backBtn.addEventListener(MouseEvent.CLICK, exit);
@@ -210,16 +228,23 @@ class BBShareDialog extends Sprite {
 
 	function onRemovedFromStage(_) {
 
-		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		var evtsObject = this.stage;
+		evtsObject.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		evtsObject.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		evtsObject.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		evtsObject.removeEventListener(MouseEvent.CLICK, stopPropagation);
 
-		Lib.current.stage.removeEventListener(MouseEvent.CLICK, stopPropagation);
-		Lib.current.stage.removeEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation);
-		Lib.current.stage.removeEventListener(TouchEvent.TOUCH_END, stopPropagation);
+		evtsObject.removeEventListener(TouchEvent.TOUCH_TAP, stopPropagation);
+		evtsObject.removeEventListener(TouchEvent.TOUCH_BEGIN, stopPropagation);
+		evtsObject.removeEventListener(TouchEvent.TOUCH_END, stopPropagation);
+		evtsObject.removeEventListener(TouchEvent.TOUCH_MOVE, stopPropagation);
 
 		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		backBtn.removeEventListener(MouseEvent.CLICK, exit);
+
+		for (c in removedOnAdded) {
+			c.y -= 5000;
+		}
 
 	}
 
@@ -231,11 +256,15 @@ class BBShareDialog extends Sprite {
 		}
 		parent.removeChild(this);
 
+		Share.__onBBShareDialogExit();
+
 	}
 
 	function stopPropagation(e : Event) {
+
 		e.stopImmediatePropagation();
 		e.stopPropagation();
+
 	}
 
 	function onMouseDown(m : MouseEvent) {
@@ -250,7 +279,7 @@ class BBShareDialog extends Sprite {
 		}
 		mouseDownPos = Some(m.stageY);
 		scrolledAmount = 0;
-		
+
 		this.globalToLocal(p);
 
 		for (i in 0...btns.length) {
