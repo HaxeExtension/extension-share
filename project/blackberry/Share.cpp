@@ -14,9 +14,11 @@ using namespace std;
 namespace openflShareExtension {
 
 	void log(const char *msg) {
+		/*
 		FILE *logFile = fopen("logs/log.txt", "a");
 		fprintf(logFile, "%s\n", msg);
 		fclose(logFile);
+		*/
 	}
 
 	void doShare(const char *method, const char *text) {
@@ -36,9 +38,11 @@ namespace openflShareExtension {
 
 	vector<ShareQueryResult> query() {
 
+		/*
 		FILE *logFile = fopen("logs/log.txt", "w");
 		fclose(logFile);
 		char msg[64];
+		*/
 
 		snprintf(msg, 64, "pid %d\n", getpid());
 		log(msg);
