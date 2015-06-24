@@ -10,6 +10,7 @@ import flash.events.MouseEvent;
 import flash.events.TouchEvent;
 import flash.geom.Point;
 import flash.Lib;
+import flash.system.Capabilities;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
@@ -39,9 +40,19 @@ class BBShareDialog extends Sprite {
 	var scrolledAmount : Float;
 	var scrollSpeed : Float;
 
+	var sWidth : Float;
+	var sHeight : Float;
+
 	public function new(elems : Array<ShareQueryResult>, shareTxt : String) {
 
 		super();
+		#if mobile
+		sWidth = Capabilities.screenResolutionX;
+		sHeight = Capabilities.screenResolutionY;
+		#else
+		sWidth = Lib.current.stage.stageWidth;
+		sHeight = Lib.current.stage.stageHeight;
+		#end
 
 		removedOnAdded = [];
 
@@ -60,11 +71,11 @@ class BBShareDialog extends Sprite {
 
 		var titleBarH = IMG_SIZE*1.7;
 		titleBar.graphics.beginFill(0x282828);
-		titleBar.graphics.drawRect(0, 0, Lib.current.stage.stageWidth, titleBarH);
+		titleBar.graphics.drawRect(0, 0, sWidth, titleBarH);
 		titleBar.graphics.endFill();
 		titleBar.graphics.lineStyle(6, 0x0092CC);
 		titleBar.graphics.moveTo(0, titleBarH);
-		titleBar.graphics.lineTo(Lib.current.stage.stageWidth, titleBarH);
+		titleBar.graphics.lineTo(sWidth, titleBarH);
 		titleBar.x = titleBar.y = 0;
 
 		var title = new TextField();
@@ -117,15 +128,15 @@ class BBShareDialog extends Sprite {
 		gfx.drawRect(
 			Lib.current.x,
 			Lib.current.y,
-			Lib.current.stage.stageWidth,
-			Lib.current.stage.stageHeight);
+			sWidth,
+			sHeight);
 
 		gfx.endFill();
 
 		// First line
 		scrollContainer.graphics.lineStyle(1.0, 0x323232);
 		scrollContainer.graphics.moveTo(0, yPos);
-		scrollContainer.graphics.lineTo(Lib.current.stage.stageWidth, yPos);
+		scrollContainer.graphics.lineTo(sWidth, yPos);
 		scrollContainer.graphics.lineStyle(0.0);
 
 		for (e in elems) {
@@ -172,7 +183,7 @@ class BBShareDialog extends Sprite {
 
 			var btn = new Sprite();
 			btn.graphics.beginFill(0x0000ff, 0.2);
-			btn.graphics.drawRect(0, 0, Lib.current.stage.stageWidth, h);
+			btn.graphics.drawRect(0, 0, sWidth, h);
 			btn.graphics.endFill();
 			btn.x = 0;
 			btn.y = yPos;
@@ -185,7 +196,7 @@ class BBShareDialog extends Sprite {
 
 			scrollContainer.graphics.lineStyle(1.0, 0x323232);
 			scrollContainer.graphics.moveTo(0, yPos);
-			scrollContainer.graphics.lineTo(Lib.current.stage.stageWidth, yPos);
+			scrollContainer.graphics.lineTo(sWidth, yPos);
 			scrollContainer.graphics.lineStyle(0.0);
 
 			scrollContainer.addChild(txt);
@@ -321,7 +332,7 @@ class BBShareDialog extends Sprite {
 				scrolledAmount += Math.abs(moved);
 				mouseDownPos = Some(m.stageY);
 				if (scrolledAmount>10 &&
-					scrollContainer.height > Lib.current.stage.stageHeight-titleBar.height) {
+					scrollContainer.height > sHeight-titleBar.height) {
 
 					for (b in btns) {
 						b.visible = false;
@@ -337,7 +348,7 @@ class BBShareDialog extends Sprite {
 
 	function onEnterFrame(_) {
 
-		var bottomBound = Lib.current.y + Lib.current.stage.stageHeight + titleBar.height;
+		var bottomBound = Lib.current.y + sHeight + titleBar.height;
 
 		switch (mouseDownPos) {
 			case Some(pos): {}
