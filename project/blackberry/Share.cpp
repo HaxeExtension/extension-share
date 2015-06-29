@@ -2,7 +2,7 @@
 
 #include <bps/event.h>
 #include <bps/navigator.h>
-#include <bps/navigator_invoke.h>
+//#include <bps/navigator_invoke.h>
 #include <screen/screen.h>
 #include <string.h>
 #include <string>
