@@ -8,7 +8,6 @@
 
 
 #include "Share.h"
-#include <bps/navigator_invoke.h>
 #include <hx/CFFI.h>
 
 using namespace openflShareExtension;

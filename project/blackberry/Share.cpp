@@ -44,8 +44,10 @@ namespace openflShareExtension {
 		char msg[64];
 		*/
 
+		/*
 		snprintf(msg, 64, "pid %d\n", getpid());
 		log(msg);
+		*/
 
 		vector<ShareQueryResult> results;
 
@@ -65,9 +67,10 @@ namespace openflShareExtension {
 		do {
 
 			bps_get_event(&event, -1);
+			/*
 			snprintf(msg, 64, "query result %#04x\n", bps_event_get_code(event));
 			log(msg);
-
+			*/
 		} while (
 
 			navigator_get_domain()!=bps_event_get_domain(event) ||
