@@ -1,2 +1,7 @@
 project/obj
 *.zip
+ndll/*/*.a
+ndll/*/*.so
+ndll/*/*.ndll
+project/obj/*
+.DS_Store
