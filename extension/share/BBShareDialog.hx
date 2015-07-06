@@ -129,7 +129,8 @@ class BBShareDialog extends Sprite {
 			Lib.current.x,
 			Lib.current.y,
 			sWidth,
-			sHeight);
+			sHeight
+		);
 
 		gfx.endFill();
 
@@ -346,30 +347,52 @@ class BBShareDialog extends Sprite {
 
 	}
 
+	function getGlobalY(obj : DisplayObject, localY : Float) : Float {
+		var p = new Point(0, localY);
+		p = obj.localToGlobal(p);
+		return p.y;
+	}
+
 	function onEnterFrame(_) {
 
-		var bottomBound = Lib.current.y + sHeight + titleBar.height;
+		var areaMinY = getGlobalY(titleBar, titleBar.height);
+		var areaMaxY = sHeight;
 
 		switch (mouseDownPos) {
+
 			case Some(pos): {}
 			case None: {
-				if (scrollContainer.y>titleBar.height-17) {
 
-					var diff = titleBar.height-17 - scrollContainer.y;
-					scrollSpeed = -diff/4.0;
+				var objectiveY = scrollContainer.y;
 
-				} else if (scrollContainer.y + scrollContainer.height < bottomBound) {
+				var scrollMinY = getGlobalY(scrollContainer, 0);
+				var scrollMaxY = getGlobalY(scrollContainer, scrollContainer.height);
 
-					var diff = scrollContainer.y + scrollContainer.height + 16 -
-						bottomBound;
-					scrollSpeed = diff/4.0;
+				if (Math.abs(scrollMinY-scrollMaxY) < Math.abs(areaMinY-areaMaxY)) {
+
+					objectiveY = areaMinY;
 
 				} else {
 
-					scrollSpeed /= 1.3;
+					if (scrollMinY>areaMinY) {
+						objectiveY = areaMinY;
+					}
+
+					if (scrollMaxY<areaMaxY-30) {
+						objectiveY = areaMaxY-30 - scrollContainer.height;
+					}
 
 				}
+
+				var diff = scrollContainer.y - objectiveY;
+				if (Math.abs(diff)>1.0) {
+					scrollSpeed = diff/4.0;
+				} else {
+					scrollSpeed /= 1.3;
+				}
+
 				scrollContainer.y -= scrollSpeed;
+
 			}
 		}
 
