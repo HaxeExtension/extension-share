@@ -216,7 +216,7 @@ class BBShareDialog extends Sprite {
 		for (i in 0...Lib.current.stage.numChildren) {
 			var c = Lib.current.stage.getChildAt(i);
 			if (c!=null && c!=this) {
-				c.y += 5000;
+				c.y += Capabilities.screenResolutionY;
 				removedOnAdded.push(c);
 			}
 		}
@@ -254,7 +254,7 @@ class BBShareDialog extends Sprite {
 		backBtn.removeEventListener(MouseEvent.CLICK, exit);
 
 		for (c in removedOnAdded) {
-			c.y -= 5000;
+			c.y -= Capabilities.screenResolutionY;
 		}
 
 	}
