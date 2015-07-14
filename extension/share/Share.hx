@@ -80,11 +80,11 @@ class Share {
 		var cleanUrl:String=StringTools.replace(StringTools.replace(url,'http://',''),'https://','');
 		try{
 		#if android
-			__share(text+(cleanUrl!=''?' '+cleanUrl:''),subject,html,email);
+			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email);
 		#elseif ios
 			__share(text,url==''?null:url,subject==''?null:subject);
 		#elseif blackberry
-		flash.Lib.current.stage.addChild(new BBShareDialog(query(), text));
+		flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);
