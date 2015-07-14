@@ -234,7 +234,7 @@ class BBShareDialog extends Sprite {
 		evtsObject.addEventListener(TouchEvent.TOUCH_MOVE, stopPropagation, 9999);
 
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		backBtn.addEventListener(MouseEvent.CLICK, exit);
+		addEventListener(MouseEvent.CLICK, onClick);
 
 	}
 
@@ -252,7 +252,7 @@ class BBShareDialog extends Sprite {
 		evtsObject.removeEventListener(TouchEvent.TOUCH_MOVE, stopPropagation);
 
 		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-		backBtn.removeEventListener(MouseEvent.CLICK, exit);
+		removeEventListener(MouseEvent.CLICK, onClick);
 
 		for (c in removedOnAdded) {
 			c.y -= Capabilities.screenResolutionY;
@@ -260,14 +260,9 @@ class BBShareDialog extends Sprite {
 
 	}
 
-	function exit(e : MouseEvent) {
+	function exit() {
 
-		if (e!=null) {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-		}
 		parent.removeChild(this);
-
 		Share.__onBBShareDialogExit();
 
 	}
@@ -277,6 +272,17 @@ class BBShareDialog extends Sprite {
 		e.stopImmediatePropagation();
 		e.stopPropagation();
 
+	}
+
+	function onClick(m : MouseEvent) {
+		var rect = backBtn.getRect(Lib.current.stage);
+		rect.x -= rect.width*0.5;
+		rect.width *= 2;
+		rect.y -= rect.height*0.5;
+		rect.height *= 2;
+		if (rect.containsPoint(new Point(m.stageX, m.stageY))) {
+			exit();
+		}
 	}
 
 	function onMouseDown(m : MouseEvent) {
@@ -315,7 +321,7 @@ class BBShareDialog extends Sprite {
 			var b = btns[i];
 			if (getObjectsUnderPoint(p).has(b) && b.visible) {
 				Share.bbShare(keys[i], shareTxt);
-				exit(null);
+				exit();
 			}
 			b.visible = false;
 		}
