@@ -5,6 +5,6 @@
         "contributors":["singmajesty","fbricker"],
         "tags": ["share","api","html5","ios","android","blackberry","openfl"],
         "description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
-        "version": "2.0.0",
-        "releasenote": "Add support for BlackBerry"
+        "version": "2.1.0",
+        "releasenote": "Fixex for iOS and Blackberry"
 }
