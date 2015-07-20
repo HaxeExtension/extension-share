@@ -6,5 +6,5 @@
         "tags": ["share","api","html5","ios","android","blackberry","openfl"],
         "description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
         "version": "2.1.0",
-        "releasenote": "Fixex for iOS and Blackberry"
+        "releasenote": "Fixes for iOS and Blackberry"
 }
