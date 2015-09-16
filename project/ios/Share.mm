@@ -21,7 +21,7 @@ namespace openflShareExtension {
         // Required for iPad on iOS >=8
         if ([activityVC respondsToSelector:@selector(popoverPresentationController)]) {
             if(NULL != [activityVC valueForKey: @"popoverPresentationController"]) {
-                [[activityVC valueForKey: @"popoverPresentationController"] setValue:[UIApplication sharedApplication] forKey:@"sourceView"];
+                [[activityVC valueForKey: @"popoverPresentationController"] setValue:[[UIApplication sharedApplication] keyWindow] forKey:@"sourceView"];
                 [[activityVC valueForKey: @"popoverPresentationController"] setPermittedArrowDirections:0]; // Remove arrow from action sheet.
                 [[activityVC valueForKey: @"popoverPresentationController"] setValue:[NSValue valueWithCGRect:[[UIApplication sharedApplication] keyWindow].frame] forKey:@"sourceRect"]; // Set action sheet to middle of view.
             }
