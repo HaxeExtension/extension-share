@@ -5,6 +5,6 @@
         "contributors":["singmajesty","fbricker"],
         "tags": ["share","api","html5","ios","android","blackberry","openfl"],
         "description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
-        "version": "2.2.0",
-        "releasenote": "Enable support for lime next."
+        "version": "2.2.1",
+        "releasenote": "Fix sourceView under iOS target."
 }
