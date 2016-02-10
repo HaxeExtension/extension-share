@@ -3,7 +3,7 @@
 
 namespace openflShareExtension {
 	
-	void doShare(const char *text, const char *url, const char *subject){
+	void doShare(const char *text, const char *url, const char *subject, const char *image){
         UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         NSString *sText = [[NSString alloc] initWithUTF8String:text];
         NSArray *itemsToShare;
@@ -13,6 +13,15 @@ namespace openflShareExtension {
         }else{
 	        itemsToShare = @[sText];        	
         }
+
+        NSString *sImage = [[NSString alloc] initWithUTF8String:image];
+        if(![sImage isEqualToString:@""])
+        {
+            UIImage* sharedImg=[UIImage imageWithContentsOfFile:sImage];
+            NSArray *imageArray = @[sharedImg];
+            itemsToShare=[itemsToShare arrayByAddingObjectsFromArray:imageArray];
+        }
+
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
         if(subject != nil){
             [activityVC setValue:[[NSString alloc] initWithUTF8String:subject] forKey:@"subject"];

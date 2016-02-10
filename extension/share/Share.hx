@@ -1,6 +1,7 @@
 package extension.share;
 
 //#if blackberry
+import String;
 import sys.io.File;
 import openfl.utils.ByteArray;
 import openfl.display.JPEGEncoderOptions;
@@ -18,7 +19,7 @@ class Share {
 	#if android
 	private static var __share : String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
-	private static var __share : String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",3);
+	private static var __share : String->String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",4);
 	#elseif blackberry
 	private static var __share : String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
 	private static var __query : Void->Array<ShareQueryResult>=cpp.Lib.load("openflShareExtension","share_query",0);
@@ -128,7 +129,7 @@ class Share {
 		#if android
 			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email,sharedImagePath);
 		#elseif ios
-			__share(text,url==''?null:url,subject==''?null:subject);
+			__share(text,url==''?null:url,subject==''?null:subject, sharedImagePath);
 		#elseif blackberry
 		flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
 		#else
