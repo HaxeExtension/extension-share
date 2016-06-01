@@ -1,10 +1,10 @@
 {
-        "name": "extension-share",
-        "url": "https://github.com/openfl/extension-share",
-        "license": "MIT",
-        "contributors":["singmajesty","fbricker"],
-        "tags": ["share","api","html5","ios","android","blackberry","openfl"],
-        "description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
-        "version": "2.2.1",
-        "releasenote": "Fix sourceView under iOS target."
+	"name": "extension-share",
+	"url": "https://github.com/openfl/extension-share",
+	"license": "MIT",
+	"contributors":["singmajesty","fbricker"],
+	"tags": ["share","api","html5","ios","android","blackberry","openfl"],
+	"description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
+	"version": "2.4.0",
+	"releasenote": "Add sharing-image support on android and ios + improve html5 facebook sharing support."
 }
