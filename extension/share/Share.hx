@@ -1,6 +1,12 @@
 package extension.share;
 
 //#if blackberry
+import String;
+import sys.io.File;
+import openfl.utils.ByteArray;
+import openfl.display.JPEGEncoderOptions;
+import sys.FileSystem;
+import openfl.display.BitmapData;
 typedef ShareQueryResult = {
 	key : String,
 	icon : String,
@@ -11,9 +17,9 @@ typedef ShareQueryResult = {
 class Share {
 
 	#if android
-	private static var __share : String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	private static var __share : String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
-	private static var __share : String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",3);
+	private static var __share : String->String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",4);
 	#elseif blackberry
 	private static var __share : String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
 	private static var __query : Void->Array<ShareQueryResult>=cpp.Lib.load("openflShareExtension","share_query",0);
@@ -25,6 +31,7 @@ class Share {
 	public static var defaultFallback:String->Void=null;
 	public static var facebookRedirectURI:String=null;
 	public static var defaultSubject:String='';
+    private static var sharedImagePath:String = "";
 
 	public static inline var FACEBOOK:String='facebook';
 	public static inline var TWITTER:String='twitter';
@@ -71,18 +78,58 @@ class Share {
 		#end
 
 	}
-
-	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null){
+    private static function prepareBitmapData(bdm:BitmapData):Void
+    {
+        var imagePath:String = "";
+        sharedImagePath = "";
+        #if !lime_legacy
+            imagePath = lime.system.System.documentsDirectory + "/shareimage.jpg";
+        #else
+            imagePath = openfl.utils.SystemPath.documentsDirectory + "/shareimage.jpg";
+        #end
+        if (FileSystem.exists(imagePath))
+        {
+            try
+            {
+                FileSystem.deleteFile(imagePath);
+            }
+            catch(e:Dynamic)
+            {
+                trace("deleting image failed");
+                return;
+            }
+        }
+        var bytes:ByteArray = bdm.encode(bdm.rect, new JPEGEncoderOptions());
+        try
+        {
+            File.saveBytes(imagePath, bytes);
+        }
+        catch(e:Dynamic)
+        {
+            trace("saving image failed");
+            return;
+        }
+        sharedImagePath = imagePath;
+    }
+	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null){
 		if(url==null) url=defaultURL;
 		if(subject==null) subject=defaultSubject;
 		if(socialNetwork==null) socialNetwork=defaultSocialNetwork;
 		if(fallback==null) fallback=defaultFallback;
 		var cleanUrl:String=StringTools.replace(StringTools.replace(url,'http://',''),'https://','');
 		try{
+
+        #if (android || ios)
+
+            if(bdm != null)
+                prepareBitmapData(bdm);
+            else
+                sharedImagePath = "";
+        #end
 		#if android
-			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email);
+			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email,sharedImagePath);
 		#elseif ios
-			__share(text,url==''?null:url,subject==''?null:subject);
+			__share(text,url==''?null:url,subject==''?null:subject, sharedImagePath);
 		#elseif blackberry
 		flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
 		#else
@@ -115,5 +162,4 @@ class Share {
 			trace("Share SHARE Exception: "+e);
 		}
 	}
-
 }

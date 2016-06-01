@@ -21,7 +21,7 @@ namespace openflShareExtension {
 
 		#else
 
-		void doShare(const char *text, const char *url, const char *subject);
+		void doShare(const char *text, const char *url, const char *subject, const char *image);
 
 		#endif
 
