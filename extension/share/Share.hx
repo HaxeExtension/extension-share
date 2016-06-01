@@ -31,10 +31,13 @@ class Share {
 	public static var defaultFallback:String->Void=null;
 	public static var facebookRedirectURI:String=null;
 	public static var defaultSubject:String='';
-    private static var sharedImagePath:String = "";
 
 	public static inline var FACEBOOK:String='facebook';
 	public static inline var TWITTER:String='twitter';
+
+	public static var onBBShareDialogExit : Void -> Void;
+
+	///////////////////////////////////////////////////////////////////////////
 
 	public static function init(defaultSocialNetwork:String, facebookAppID:String='', defaultURL:String='', defaultFallback:String->Void=null, facebookRedirectURI:String=null, defaultSubject='') {
 		Share.defaultSocialNetwork=defaultSocialNetwork;
@@ -45,7 +48,7 @@ class Share {
 		Share.defaultSubject=defaultSubject;
 	}
 
-	public static var onBBShareDialogExit : Void -> Void;
+	///////////////////////////////////////////////////////////////////////////
 
 	static function __onBBShareDialogExit() {
 
@@ -55,44 +58,43 @@ class Share {
 
 	}
 
+	///////////////////////////////////////////////////////////////////////////
+
 	public static function bbShare(method : String, text : String) {
 		#if blackberry
 		__share(method, text);
 		#end
 	}
 
+	///////////////////////////////////////////////////////////////////////////
+
 	static function query() {
-
 		#if blackberry
-
-		return __query();
-
+			return __query();
 		#else
-
-		return [
-			{ label : "BBM Channel", icon : "", key : "sys.bbm.channels.sharehandler" },
-			{ label : "BBM Group", icon : "", key : "sys.bbgroups.sharehandler" },
-			{ label : "Facebook", icon : "", key : "Facebook" }
-		];
-
+			return [
+				{ label : "BBM Channel", icon : "", key : "sys.bbm.channels.sharehandler" },
+				{ label : "BBM Group", icon : "", key : "sys.bbgroups.sharehandler" },
+				{ label : "Facebook", icon : "", key : "Facebook" }
+			];
 		#end
-
 	}
 
-	private static function prepareBitmapData(bdm:BitmapData):Void {
+	///////////////////////////////////////////////////////////////////////////
+
+	public static function saveBitmapData(bdm:BitmapData, fname="shareimage.jpg"):String {
 		var imagePath:String = "";
-		sharedImagePath = "";
 		#if !lime_legacy
-			imagePath = lime.system.System.documentsDirectory + "/shareimage.jpg";
+			imagePath = lime.system.System.documentsDirectory + "/" + fName;
 		#else
-			imagePath = openfl.utils.SystemPath.documentsDirectory + "/shareimage.jpg";
+			imagePath = openfl.utils.SystemPath.documentsDirectory + "/" + fname;
 		#end
 		if (FileSystem.exists(imagePath)) {
 			try {
 				FileSystem.deleteFile(imagePath);
-			} catch(e:Dynamic)c{
+			} catch(e:Dynamic) {
 				trace("deleting image failed");
-				return;
+				return null;
 			}
 		}
 		var bytes:ByteArray = bdm.encode(bdm.rect, new JPEGEncoderOptions());
@@ -100,10 +102,12 @@ class Share {
 			File.saveBytes(imagePath, bytes);
 		} catch(e:Dynamic) {
 			trace("saving image failed");
-			return;
+			return null;
 		}
-		sharedImagePath = imagePath;
+		return imagePath;
 	}
+
+	///////////////////////////////////////////////////////////////////////////
 
 	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null){
 		if(url==null) url=defaultURL;
@@ -114,16 +118,23 @@ class Share {
 		try{
 
 		#if (android || ios)
-			if(bdm != null) prepareBitmapData(bdm);
-			else sharedImagePath = "";
+			var sharedImagePath:String = null;
+			if(bdm != null) sharedImagePath = saveBitmapData(bdm);
+			if(sharedImagePath == null) {
+				if(image!=null && image!="" && image.indexOf('http://')==-1 && image.indexOf('https://')==-1){
+					sharedImagePath = image;
+				}else{
+					sharedImagePath = "";
+				}
+			}
 		#end
 
 		#if android
-			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email,sharedImagePath);
+			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject, html, email, sharedImagePath);
 		#elseif ios
 			__share(text,url==''?null:url,subject==''?null:subject, sharedImagePath);
 		#elseif blackberry
-		flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
+			flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
 		#else
 			text=StringTools.urlEncode(text);
 			subject=StringTools.urlEncode(subject);
@@ -160,4 +171,8 @@ class Share {
 			trace("Share SHARE Exception: "+e);
 		}
 	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+
 }
