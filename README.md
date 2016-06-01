@@ -27,6 +27,17 @@ class SimpleExample {
 
 	function shareStuff(){
 		Share.share('Hi, I\'m testing the OpenFL-Sharing extension!');
+		// check the share paremeters to see what you can share using this extension:
+		// public static function share(
+		//	text:String, // text to share
+		//	subject:String=null, // subject in case your user chooses "email"
+		//	image:String='', // path to an image you want to share in case you have one
+		//	html:String='', // html version of your shared text (android only)
+		//	email:String='', // preset email address in case your user chooses "email"
+		//	url:String=null, // url to append to the shared text
+		//	socialNetwork:String=null, // default social network (for everything but android, ios & blackberry)
+		//	fallback:String->Void=null, // function to call when we don't know how to share
+		//	bdm:BitmapData = null); // bitmap data object: Will be saved as JPG and shared (ios & android only)
 	}
 }
 
