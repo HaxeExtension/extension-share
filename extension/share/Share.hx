@@ -142,7 +142,8 @@ class Share {
 			image=StringTools.urlEncode(image);
 			var shareUrl=switch(socialNetwork){
 				case Share.TWITTER: 'https://twitter.com/intent/tweet?original_referer='+url+'&text='+text+'%20'+cleanUrl;
-				default: 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
+				//default: 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
+				default: 'https://www.facebook.com/sharer/sharer.php?u='+url+redirectURI+'&description='+text+'&display=popup&caption='+subject;
 			}
 			#if html5
 				var pWidth:Int=550;
