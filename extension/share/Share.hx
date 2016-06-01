@@ -78,39 +78,33 @@ class Share {
 		#end
 
 	}
-    private static function prepareBitmapData(bdm:BitmapData):Void
-    {
-        var imagePath:String = "";
-        sharedImagePath = "";
-        #if !lime_legacy
-            imagePath = lime.system.System.documentsDirectory + "/shareimage.jpg";
-        #else
-            imagePath = openfl.utils.SystemPath.documentsDirectory + "/shareimage.jpg";
-        #end
-        if (FileSystem.exists(imagePath))
-        {
-            try
-            {
-                FileSystem.deleteFile(imagePath);
-            }
-            catch(e:Dynamic)
-            {
-                trace("deleting image failed");
-                return;
-            }
-        }
-        var bytes:ByteArray = bdm.encode(bdm.rect, new JPEGEncoderOptions());
-        try
-        {
-            File.saveBytes(imagePath, bytes);
-        }
-        catch(e:Dynamic)
-        {
-            trace("saving image failed");
-            return;
-        }
-        sharedImagePath = imagePath;
-    }
+
+	private static function prepareBitmapData(bdm:BitmapData):Void {
+		var imagePath:String = "";
+		sharedImagePath = "";
+		#if !lime_legacy
+			imagePath = lime.system.System.documentsDirectory + "/shareimage.jpg";
+		#else
+			imagePath = openfl.utils.SystemPath.documentsDirectory + "/shareimage.jpg";
+		#end
+		if (FileSystem.exists(imagePath)) {
+			try {
+				FileSystem.deleteFile(imagePath);
+			} catch(e:Dynamic)c{
+				trace("deleting image failed");
+				return;
+			}
+		}
+		var bytes:ByteArray = bdm.encode(bdm.rect, new JPEGEncoderOptions());
+		try {
+			File.saveBytes(imagePath, bytes);
+		} catch(e:Dynamic) {
+			trace("saving image failed");
+			return;
+		}
+		sharedImagePath = imagePath;
+	}
+
 	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null){
 		if(url==null) url=defaultURL;
 		if(subject==null) subject=defaultSubject;
@@ -119,13 +113,11 @@ class Share {
 		var cleanUrl:String=StringTools.replace(StringTools.replace(url,'http://',''),'https://','');
 		try{
 
-        #if (android || ios)
+		#if (android || ios)
+			if(bdm != null) prepareBitmapData(bdm);
+			else sharedImagePath = "";
+		#end
 
-            if(bdm != null)
-                prepareBitmapData(bdm);
-            else
-                sharedImagePath = "";
-        #end
 		#if android
 			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject,html,email,sharedImagePath);
 		#elseif ios
@@ -154,7 +146,7 @@ class Share {
 				var pWidth:Int=550;
 				var pHeight:Int=(socialNetwork==Share.TWITTER)?250:350;
 				var pTop = 150;
-		        var pLeft = (js.Browser.window.screen.width - pWidth -10);
+				var pLeft = (js.Browser.window.screen.width - pWidth -10);
 				js.Browser.window.open(shareUrl,'_blank','top='+pTop+',left='+pLeft+',status=0,toolnar=0,width='+pWidth+',height='+pHeight);
 			#else
 				if(fallback!=null) {
