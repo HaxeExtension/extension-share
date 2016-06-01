@@ -140,10 +140,16 @@ class Share {
 			var redirectURI:String='';
 			if(facebookRedirectURI!=null) redirectURI='&redirect_uri='+StringTools.urlEncode(facebookRedirectURI);
 			image=StringTools.urlEncode(image);
-			var shareUrl=switch(socialNetwork){
-				case Share.TWITTER: 'https://twitter.com/intent/tweet?original_referer='+url+'&text='+text+'%20'+cleanUrl;
-				default: 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
+
+			var shareUrl:String = null;
+			if(socialNetwork ==  Share.TWITTER) {
+				shareUrl = 'https://twitter.com/intent/tweet?original_referer='+url+'&text='+text+'%20'+cleanUrl;
+			} else if(Share.facebookAppID!=null && Share.facebookAppID!=''){
+				shareUrl = 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
+			} else {
+				shareUrl = 'https://www.facebook.com/sharer/sharer.php?u='+url+redirectURI+'&description='+text+'&display=popup&caption='+subject;
 			}
+
 			#if html5
 				var pWidth:Int=550;
 				var pHeight:Int=(socialNetwork==Share.TWITTER)?250:350;
