@@ -82,12 +82,12 @@ class Share {
 
 	///////////////////////////////////////////////////////////////////////////
 
-	public static function saveBitmapData(bdm:BitmapData, fname="shareimage.jpg"):String {
+	public static function saveBitmapData(bdm:BitmapData, fName="shareimage.jpg"):String {
 		var imagePath:String = "";
 		#if !lime_legacy
 			imagePath = lime.system.System.documentsDirectory + "/" + fName;
 		#else
-			imagePath = openfl.utils.SystemPath.documentsDirectory + "/" + fname;
+			imagePath = openfl.utils.SystemPath.documentsDirectory + "/" + fName;
 		#end
 		if (FileSystem.exists(imagePath)) {
 			try {
