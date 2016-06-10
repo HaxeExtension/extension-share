@@ -5,6 +5,6 @@
 	"contributors":["singmajesty","fbricker"],
 	"tags": ["share","api","html5","ios","android","blackberry","openfl"],
 	"description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
-	"version": "2.4.1",
-	"releasenote": "Add sharing-image support on android and ios + improve html5 facebook sharing support + small bugfix."
+	"version": "2.4.2",
+	"releasenote": "Fix compilation on Flash target."
 }

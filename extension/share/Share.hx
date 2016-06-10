@@ -2,10 +2,8 @@ package extension.share;
 
 //#if blackberry
 import String;
-import sys.io.File;
 import openfl.utils.ByteArray;
 import openfl.display.JPEGEncoderOptions;
-import sys.FileSystem;
 import openfl.display.BitmapData;
 typedef ShareQueryResult = {
 	key : String,
@@ -82,6 +80,7 @@ class Share {
 
 	///////////////////////////////////////////////////////////////////////////
 
+	#if (android || ios)
 	public static function saveBitmapData(bdm:BitmapData, fName="shareimage.jpg"):String {
 		var imagePath:String = "";
 		#if !lime_legacy
@@ -89,9 +88,9 @@ class Share {
 		#else
 			imagePath = openfl.utils.SystemPath.documentsDirectory + "/" + fName;
 		#end
-		if (FileSystem.exists(imagePath)) {
+		if (sys.FileSystem.exists(imagePath)) {
 			try {
-				FileSystem.deleteFile(imagePath);
+				sys.FileSystem.deleteFile(imagePath);
 			} catch(e:Dynamic) {
 				trace("deleting image failed");
 				return null;
@@ -99,13 +98,14 @@ class Share {
 		}
 		var bytes:ByteArray = bdm.encode(bdm.rect, new JPEGEncoderOptions());
 		try {
-			File.saveBytes(imagePath, bytes);
+			sys.io.File.saveBytes(imagePath, bytes);
 		} catch(e:Dynamic) {
 			trace("saving image failed");
 			return null;
 		}
 		return imagePath;
 	}
+	#end
 
 	///////////////////////////////////////////////////////////////////////////
 
