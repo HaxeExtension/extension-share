@@ -83,7 +83,7 @@ class Share {
 	#if (android || ios)
 	public static function saveBitmapData(bdm:BitmapData, fName="shareimage.jpg"):String {
 		var imagePath:String = "";
-		#if !lime_legacy
+		#if (!lime_legacy)
 			imagePath = lime.system.System.documentsDirectory + "/" + fName;
 		#else
 			imagePath = openfl.utils.SystemPath.documentsDirectory + "/" + fName;
