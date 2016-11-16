@@ -5,6 +5,6 @@
 	"contributors":["singmajesty","fbricker"],
 	"tags": ["share","api","html5","ios","android","blackberry","openfl"],
 	"description": "Share extension calling native implementation for Android, iOS, BlackBerry and HTML5.",
-	"version": "2.4.2",
-	"releasenote": "Fix compilation on Flash target."
+	"version": "2.4.3",
+	"releasenote": "Fix java check for image."
 }

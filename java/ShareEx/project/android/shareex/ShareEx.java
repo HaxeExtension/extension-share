@@ -9,10 +9,9 @@ public class ShareEx {
 	public static void share(String text, String subject, String html, String email, String image) {
 		Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
 		sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(image == "")
+        if ( image.equals("") ) {
 		    sendIntent.setType("text/plain");
-        else
-        {
+        } else {
             sendIntent.setType("image/*");
             sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + image));
             sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
