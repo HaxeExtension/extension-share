@@ -15,7 +15,7 @@ typedef ShareQueryResult = {
 class Share {
 
 	#if android
-	private static var __share : String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	private static var __share : String->String->String->String->String->Void=lime.system.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	#elseif ios
 	private static var __share : String->String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",4);
 	#elseif blackberry
