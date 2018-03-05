@@ -154,7 +154,7 @@ class Share {
 			} else if(Share.facebookAppID!=null && Share.facebookAppID!=''){
 				shareUrl = 'https://www.facebook.com/dialog/feed?app_id='+Share.facebookAppID+'&description='+text+'&display=popup&caption='+subject+'&link='+url+redirectURI+'&images[]='+image;
 			} else {
-				shareUrl = 'https://www.facebook.com/sharer/sharer.php?u='+url+redirectURI+'&description='+text+'&display=popup&caption='+subject;
+				shareUrl = 'https://www.facebook.com/sharer/sharer.php?u='+url+redirectURI+'&quote='+text+'&display=popup&caption='+subject;
 			}
 
 			#if html5
