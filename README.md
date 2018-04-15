@@ -1,10 +1,10 @@
-#extension-share
+# extension-share
 
 Native Sharing calls for OpenFL
 
 This is a simple "Share" API implementation. So far it calls the "Share Intent" on Android, iOS and BlackBerry, a popup on HTML5 and opens sharing URL from Facebook and Twitter on other platforms.
 
-###Simple use Example
+### Simple use Example
 
 ```haxe
 // This example show a simple sharing of a text using the Share Classs.
@@ -43,13 +43,13 @@ class SimpleExample {
 
 ```
 
-###How to Install
+### How to Install
 
 ```bash
 haxelib install extension-share
 ```
 
-###Disclaimer
+### Disclaimer
 
 Twitter is a registered trademark of Twitter Inc.
 http://unibrander.com/united-states/212050US/twitter.html
@@ -57,7 +57,7 @@ http://unibrander.com/united-states/212050US/twitter.html
 Facebook is a registered trademark of Facebook Inc.
 http://unibrander.com/united-states/221811US/facebook.html
 
-###License
+### License
 
 The MIT License (MIT) - [LICENSE.md](LICENSE.md)
 
