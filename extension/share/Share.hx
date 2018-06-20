@@ -15,7 +15,7 @@ typedef ShareQueryResult = {
 class Share {
 
 	#if android
-		#if (!lime_legacy)
+		#if (openfl < "4.0.0")
 		private static var __share : String->String->String->String->String->Void=lime.system.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 		#else
 		private static var __share : String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
